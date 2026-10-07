@@ -1,5 +1,14 @@
 <html style="margin:0;padding:0;">
-<div style="background-color:transparent;box-sizing:border-box;font-family:'PingFang SC','Microsoft YaHei',sans-serif;color:#1A1B1C;padding:8px 12px;">
+<div id="lockOverlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);z-index:9999;display:flex;align-items:center;justify-content:center;box-sizing:border-box;">
+  <div style="background:#FFFFFF;border-radius:16px;padding:24px 28px;box-shadow:0 8px 30px rgba(46,125,50,0.15);text-align:center;max-width:320px;width:90%;box-sizing:border-box;">
+    <div style="font-size:20px;font-weight:700;color:#1B5E20;margin-bottom:6px;">🔒 710班 · 家校共育</div>
+    <div style="font-size:12px;color:#5C6B5C;margin-bottom:16px;">请输入访问密码查看孩子的成长画像</div>
+    <input id="lockPwd" type="password" onkeydown="if(event.key==='Enter')tryUnlock()" placeholder="请输入密码" style="width:100%;min-height:44px;padding:0 12px;font-size:14px;border:1px solid rgba(46,125,50,0.35);border-radius:10px;box-sizing:border-box;outline:none;margin-bottom:12px;"/>
+    <button onclick="tryUnlock()" style="width:100%;min-height:44px;background:#2E7D32;color:#FFFFFF;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;">进入</button>
+    <div id="lockMsg" style="font-size:11px;color:#C62828;margin-top:10px;min-height:14px;"></div>
+  </div>
+</div>
+<div id="mainContent" style="display:none;background-color:transparent;box-sizing:border-box;font-family:'PingFang SC','Microsoft YaHei',sans-serif;color:#1A1B1C;padding:8px 12px;">
   <div style="text-align:center;padding:14px 12px;background:linear-gradient(135deg, rgba(67,160,71,0.12), rgba(129,199,132,0.20));border-radius:16px;margin-bottom:12px;">
     <div style="font-size:16px;font-weight:700;color:#1B5E20;">710班家校共育 · 学生成长五边形</div>
     <div style="font-size:11px;color:#5C6B5C;margin-top:5px;">吴柔霏同学 · 成长画像</div>
@@ -59,4 +68,22 @@
   </div>
   <div style="text-align:center;font-size:10px;color:#6B7280;padding:6px 0 4px;">评分1-5分 · 家校携手，助力孩子向阳生长</div>
 </div>
+<script>
+(function() {
+  var PWD = '星煦10班';
+  function unlock() {
+    document.getElementById('lockOverlay').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    try { sessionStorage.setItem('p7ok', '1'); } catch(e) {}
+  }
+  window.tryUnlock = function() {
+    var v = document.getElementById('lockPwd').value;
+    if (v === PWD) { unlock(); }
+    else { document.getElementById('lockMsg').textContent = '密码不正确，请重试'; }
+  };
+  try {
+    if (sessionStorage.getItem('p7ok') === '1') { unlock(); }
+  } catch(e) {}
+})();
+</script>
 </html>
